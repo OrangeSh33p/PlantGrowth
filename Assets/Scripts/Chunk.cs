@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//A bit of the plant (root, branch, leaf...)
 public abstract class Chunk : MonoBehaviour {
-	void Start () {
-		Debug.Log("he");
-	}
+	public List<Tip> tips; //The tips of this chunk
 }
