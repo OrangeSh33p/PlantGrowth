@@ -36,7 +36,7 @@ public class PlantManager : MonoBehaviour
         UpdatePlantStats();
 
         WeatherManager.instance.SelectRandomWeather();
-        WeatherManager.instance.UpdateEnvironmentStats();
+      
     }
 
 
