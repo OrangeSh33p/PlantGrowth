@@ -17,4 +17,22 @@ public class PlantPart : MonoBehaviour
     public float waterAbsorption;
     public float mineralAbsorption;
 
+
+    public List<Tip> tips; //The tips of this plant part
+
+    public Tip RandomTip()
+    {
+        int rand = Random.Range(0, tips.Count);
+        Debug.Log("random tip number" + rand, this);
+        return tips[rand];
+    
+    }
+
+
+    private void Start()
+    {
+        PlantManager.instance.plantParts.Add(this);
+    }
+
+
 }

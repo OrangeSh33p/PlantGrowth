@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class PlantManager : MonoBehaviour
 {
-  
+
+    PlantGrower plantGrowthManager;
+
+    public static PlantManager instance;
 
     float waterLoseThreshold;
     float growPotentialLoseThreshold;
@@ -18,18 +21,37 @@ public class PlantManager : MonoBehaviour
     float water;  //between 0 and 1
     float growthPotential; //between 0 and 1
 
-    List<PlantPart> plantParts;
+    [HideInInspector] public List<PlantPart> plantParts;
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     void Start()
     {
-        
+        plantGrowthManager = GetComponent<PlantGrower>();
     }
 
     void Update()
     {
+        //if (Input.GetKeyDown(KeyCode.G))
+        //{
+        //    Tip randomTip = RandomPlantPart().RandomTip();
+        //    if (randomTip)
+        //        plantGrowthManager.Grow(randomTip, 0);
+        //}
+
         CheckForWinLoseConditions();
     }
 
+
+    //public PlantPart RandomPlantPart()
+    //{
+    //    return plantParts[Random.Range(0, plantParts.Count)];
+    //}
+
+  
 
     public void NextTimeStep()
     {
