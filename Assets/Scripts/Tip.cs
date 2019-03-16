@@ -6,8 +6,9 @@ using UnityEngine;
 public class Tip : MonoBehaviour {
 
     public PlantPart.Type generatedType; //type of generated plant part 
-    public PlantPart parentPart;
-    public PlantGrower grower;
+    [HideInInspector] public PlantPart parentPart;
+    public float angle;
+   
 
     public void Destroy()
     {
@@ -18,23 +19,25 @@ public class Tip : MonoBehaviour {
 
     private void Awake()
     {
-        parentPart.tips.Add(this);
+       // parentPart.tips.Add(this);
     }
 
-    public void Grow(float angle)
+    public void Grow()
     {
        
-          
-            GameObject newPartPrefab = grower.GetPartPrefab(generatedType);
+            GameObject newPartPrefab = PlantManager.instance.GetPartPrefab(generatedType);
 
             Instantiate(
                 newPartPrefab,
                 transform.position,
-                transform.rotation * Quaternion.Euler(0, 0, angle),
+                transform.rotation = Quaternion.Euler(0, 0, angle),             
                 transform.parent
             );
             Destroy();
+
+        PlantManager.instance.GrowPart(newPartPrefab.GetComponent<PlantPart>());
         
     }
+
 
 }

@@ -72,8 +72,7 @@ public class WeatherManager : MonoBehaviour {
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A))
-            SelectRandomWeather();
+       
     }
 
     IEnumerator WeatherTransition()
@@ -109,14 +108,16 @@ public class WeatherManager : MonoBehaviour {
         }
 
         int humidityGraphicalStage = (int) Mathf.Floor(soilHumidity / (1f / groundSprites.Length));
-        Debug.Log("humidity graphical stage: " + humidityGraphicalStage);
-
+       // Debug.Log("humidity graphical stage: " + humidityGraphicalStage);
+        if (humidityGraphicalStage == groundSprites.Length)
+            humidityGraphicalStage--;
         ground.sprite = groundSprites[humidityGraphicalStage]; 
     }
 
 
     public void SelectRandomWeather()
     {
+        Debug.Log("selecting whter");
         float rand = Random.Range(0f, 1f);
         if (rand < sunnyProbability)
             weather = Weather.Sunny;

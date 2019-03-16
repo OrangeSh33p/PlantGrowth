@@ -9,49 +9,47 @@ public class PlantManager : MonoBehaviour
 
     public static PlantManager instance;
 
-    float waterLoseThreshold;
-    float growPotentialLoseThreshold;
-    float waterWinThreshold;
-    float growPotentialWinThreshold;
+    float waterLoseThreshold = 0.01f;
+    float growPotentialLoseThreshold = 0.01f;
+    float waterWinThreshold = 0.3f;
+    float growPotentialWinThreshold = 0.95f;
 
     float numberLeaves;
 
     
     //plant stats
-    float water;  //between 0 and 1
-    float growthPotential; //between 0 and 1
+    float water = 0.5f;  //between 0 and 1
+    float growthPotential = 0.3f; //between 0 and 1
 
     [HideInInspector] public List<PlantPart> plantParts;
+
+    [Header("Plant part prefabs")]
+    public GameObject leafPrefab;
+    public GameObject rootPrefab;
+    public GameObject stemPrefab;
+    public GameObject stemWithLeafPrefab;
+
 
     private void Awake()
     {
         instance = this;
+
+        
     }
 
     void Start()
     {
         plantGrowthManager = GetComponent<PlantGrower>();
+        water = 0.5f;
+        growthPotential = 0.5f;
     }
 
     void Update()
     {
-        //if (Input.GetKeyDown(KeyCode.G))
-        //{
-        //    Tip randomTip = RandomPlantPart().RandomTip();
-        //    if (randomTip)
-        //        plantGrowthManager.Grow(randomTip, 0);
-        //}
 
         CheckForWinLoseConditions();
     }
 
-
-    //public PlantPart RandomPlantPart()
-    //{
-    //    return plantParts[Random.Range(0, plantParts.Count)];
-    //}
-
-  
 
     public void NextTimeStep()
     {
@@ -61,8 +59,29 @@ public class PlantManager : MonoBehaviour
       
     }
 
+   
 
-  
+
+
+    public GameObject GetPartPrefab(PlantPart.Type type)
+    {
+        switch (type)
+        {
+            case PlantPart.Type.Leaf:
+                return leafPrefab;
+            case PlantPart.Type.Root:
+                return rootPrefab;
+            case PlantPart.Type.Stem:
+                if (growthPotential <= 0.3)
+                    return stemPrefab;
+                else
+                    return stemWithLeafPrefab;
+            default:
+                return null;
+        }
+    }
+
+
 
     public void UpdatePlantStats()
     {
@@ -70,13 +89,19 @@ public class PlantManager : MonoBehaviour
         {
             growthPotential -= part.metabolism;
             growthPotential += part.fotosynthesis;
-            growthPotential += part.mineralAbsorption;
+         //   growthPotential += part.mineralAbsorption;
             growthPotential = Mathf.Clamp(growthPotential, 0, 1);
 
 
             water -= part.waterEvaporation * WeatherManager.instance.luminosity;
             water += part.waterAbsorption * WeatherManager.instance.soilHumidity;
+            water = Mathf.Clamp(water, 0, 1);
+
+            
         }
+
+        Debug.Log("growth potential: " + growthPotential);
+        Debug.Log("water: " + water);
     }
 
 
@@ -92,17 +117,24 @@ public class PlantManager : MonoBehaviour
         if (water >= waterWinThreshold && growthPotential >= growPotentialWinThreshold)
             Blossom();
 
-        else if (water < waterLoseThreshold || growthPotential < growPotentialWinThreshold)
+
+        else if (water <= waterLoseThreshold || growthPotential <= growPotentialLoseThreshold)
+        {
+            //Debug.Log(water);
+            //Debug.Log(waterLoseThreshold);
+            //Debug.Log(growthPotential);
+            //Debug.Log(growPotentialLoseThreshold);
             OnLose();
+        }
     }
 
     public void Blossom()
     {
-
+        Debug.Log("blossom");
     }
 
     public void OnLose()
     {
-
+        Debug.Log("you lose!");
     }
 }

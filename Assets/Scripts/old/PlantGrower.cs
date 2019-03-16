@@ -4,26 +4,26 @@ using UnityEngine;
 
 public class PlantGrower : MonoBehaviour {
 
-    public GameObject leafPrefab;
-    public GameObject rootPrefab;
-    public GameObject stemPrefab;
+    //public GameObject leafPrefab;
+    //public GameObject rootPrefab;
+    //public GameObject stemPrefab;
 
    
 
-    public GameObject GetPartPrefab(PlantPart.Type type)
-    {
-        switch (type)
-        {
-            case PlantPart.Type.Leaf:
-                return leafPrefab;
-            case PlantPart.Type.Root:
-                return rootPrefab;
-            case PlantPart.Type.Stem:
-                return stemPrefab;
-            default:
-                return null;
-        }
-    }
+    //public GameObject GetPartPrefab(PlantPart.Type type)
+    //{
+    //    switch (type)
+    //    {
+    //        case PlantPart.Type.Leaf:
+    //            return leafPrefab;
+    //        case PlantPart.Type.Root:
+    //            return rootPrefab;
+    //        case PlantPart.Type.Stem:
+    //            return stemPrefab;
+    //        default:
+    //            return null;
+    //    }
+    //}
 
 
   
