@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8014909978933797041}
   - component: {fileID: 114732677804352562}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Leaf
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 1050034544536316}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 1}
   m_Children:
   - {fileID: 5153659369716251821}
   m_Father: {fileID: 0}
@@ -45,14 +45,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
-  buildCost: 0.1
+  buildCost: 0.06
   metabolism: 0.001
-  waterEvaporation: 0.05
+  waterEvaporation: 0.04
   fotosynthesis: 0.01
   waterAbsorption: 0
   mineralAbsorption: 0
-  growthClip: {fileID: 0}
+  growthClip: {fileID: 8300000, guid: faea4fa92f166854ba52d4de76b06c7a, type: 3}
+  shrivelClip: {fileID: 8300000, guid: 432b4e02f75d6f24699c4edd87a341c6, type: 3}
+  sprites:
+  - {fileID: 21300000, guid: a4c0f11fbab1ab845b43fbf0c6ca2356, type: 3}
+  - {fileID: 21300000, guid: fecc1fca5770d6046a958fc62a26d215, type: 3}
+  shriveledSprites:
+  - {fileID: 21300000, guid: 15dd97c38968cb44eb13d0ac028ea249, type: 3}
+  - {fileID: 21300000, guid: 15dd97c38968cb44eb13d0ac028ea249, type: 3}
+  spriteRenderer: {fileID: 212451592440819400}
   blossom: {fileID: 0}
+  yScaleFactor: 1
+  xScaleFactor: 1
   tips: []
 --- !u!1 &1874488712553376
 GameObject:
@@ -63,7 +73,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5153659369716251821}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Visuals
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -78,7 +88,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1874488712553376}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.86, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5296378115488075298}
@@ -95,8 +105,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5296378115488075298}
   - component: {fileID: 212451592440819400}
-  m_Layer: 5
-  m_Name: New Sprite
+  m_Layer: 0
+  m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -111,7 +121,7 @@ Transform:
   m_GameObject: {fileID: 1891884332239116}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.33, z: 0}
-  m_LocalScale: {x: 2.2296383, y: 5.847799, z: 6.8215}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5153659369716251821}
   m_RootOrder: 0
@@ -150,11 +160,11 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 573021665
+  m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
-  m_Color: {r: 0.08664116, g: 0.31132078, b: 0.1323729, a: 1}
+  m_Sprite: {fileID: 21300000, guid: a4c0f11fbab1ab845b43fbf0c6ca2356, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

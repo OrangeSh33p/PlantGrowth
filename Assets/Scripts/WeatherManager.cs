@@ -41,13 +41,14 @@ public class WeatherManager : MonoBehaviour {
     float weatherTransitionSpritDelay = 1;
 
     //environment stats
-    [HideInInspector] public float soilHumidity = 0.5f;  //between 0 and 1
+    [HideInInspector] public float soilHumidity = 0.6f;  //between 0 and 1
     [HideInInspector] public float luminosity;   //between 0 and 1
 
 
     [Header("References to game objects")]
     public SpriteRenderer sky;
     public SpriteRenderer ground;
+    public GameObject rainParticleSystem;
 
     [Header("References to assets")]
     public Sprite rainySprite;
@@ -68,6 +69,7 @@ public class WeatherManager : MonoBehaviour {
         instance = this;
         myAudioSource = GetComponent<AudioSource>();
         soilHumidity = 0.5f;
+        rainParticleSystem.SetActive(false);
     }
 
     private void Update()
@@ -98,12 +100,15 @@ public class WeatherManager : MonoBehaviour {
         {
             case Weather.Sunny:
                 sky.sprite = sunnySprite;
+                rainParticleSystem.SetActive(false);
                 break;
             case Weather.Cloudy:
                 sky.sprite = cloudySprite;
+                rainParticleSystem.SetActive(false);
                 break;
             case Weather.Rainy:
                 sky.sprite = rainySprite;
+                rainParticleSystem.SetActive(true);
                 break;
         }
 
@@ -115,13 +120,17 @@ public class WeatherManager : MonoBehaviour {
     }
 
 
-    public void SelectRandomWeather()
+    public void SelectNewWeather()
     {
-        Debug.Log("selecting whter");
-        float rand = Random.Range(0f, 1f);
-        if (rand < sunnyProbability)
+        float rand1 = Random.Range(0f, 1f);
+
+        if (rand1 < 0.5)
+            return;
+
+            float rand2 = Random.Range(0f, 1f);
+        if (rand2 < sunnyProbability)
             weather = Weather.Sunny;
-        else if (rand < sunnyProbability + rainProbability)
+        else if (rand2 < sunnyProbability + rainProbability)
             weather = Weather.Rainy;
         else
             weather = Weather.Cloudy;

@@ -41,6 +41,30 @@ TagManager:
   - name: Background
     uniqueID: 3361531211
     locked: 0
+  - name: Sky
+    uniqueID: 3935118767
+    locked: 0
+  - name: Rain
+    uniqueID: 1830323797
+    locked: 0
+  - name: Ground
+    uniqueID: 4069057181
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Stems
+    uniqueID: 4190782777
+    locked: 0
+  - name: Leaves
+    uniqueID: 573021665
+    locked: 0
+  - name: Bulb
+    uniqueID: 4157891063
+    locked: 0
+  - name: Tips
+    uniqueID: 2088005621
+    locked: 0
+  - name: Blossom
+    uniqueID: 3693941431
     locked: 0

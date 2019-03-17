@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlantManager : MonoBehaviour
 {
@@ -16,38 +17,64 @@ public class PlantManager : MonoBehaviour
 
     float numberLeaves;
 
-    
+
+    [HideInInspector] public bool isGameOver;
+
+    [Header("End game UI elements")]
+    public GameObject endGamePanel;
+    public Text endText;
+
     //plant stats
-    float water = 0.5f;  //between 0 and 1
-    float growthPotential = 0.3f; //between 0 and 1
+    [HideInInspector] public float water = 0.5f;  //between 0 and 1
+    [HideInInspector] public float growthPotential = 0.3f; //between 0 and 1
 
     [HideInInspector] public List<PlantPart> plantParts;
+    [HideInInspector] public List<PlantPart> unshriveledLeaves;
 
     [Header("Plant part prefabs")]
     public GameObject leafPrefab;
     public GameObject rootPrefab;
     public GameObject stemPrefab;
     public GameObject stemWithLeafPrefab;
+    public GameObject stemWithBlossomPrefab;
 
+
+    string winText = "You have blossomed!";
+    string waterLoseText = "You could not get enough water... Try again!";
+    string energyLoseText = "You could not survive... Try again!";
+
+
+    BulbGraphics bulb;
 
     private void Awake()
     {
         instance = this;
+        endGamePanel.SetActive(false);
+        bulb = GetComponentInChildren<BulbGraphics>();
+        isGameOver = false;
 
-        
     }
 
     void Start()
     {
         plantGrowthManager = GetComponent<PlantGrower>();
+
+       
+
         water = 0.5f;
         growthPotential = 0.5f;
+
+        //water = 1f;
+        //growthPotential = 1f;
+
+
+        NextTimeStep();
     }
 
     void Update()
     {
 
-        CheckForWinLoseConditions();
+        CheckForLoseConditions();
     }
 
 
@@ -55,7 +82,9 @@ public class PlantManager : MonoBehaviour
     {
         UpdatePlantStats();
 
-        WeatherManager.instance.SelectRandomWeather();
+        bulb.UpdateGraphics();
+
+        WeatherManager.instance.SelectNewWeather();
       
     }
 
@@ -74,6 +103,8 @@ public class PlantManager : MonoBehaviour
             case PlantPart.Type.Stem:
                 if (growthPotential <= 0.3)
                     return stemPrefab;
+                else if (growthPotential > growPotentialWinThreshold && water >= waterWinThreshold)
+                    return stemWithBlossomPrefab;
                 else
                     return stemWithLeafPrefab;
             default:
@@ -81,6 +112,17 @@ public class PlantManager : MonoBehaviour
         }
     }
 
+
+    public PlantPart ChooseRandomUnshriveledLeaf()
+    {
+        if (unshriveledLeaves.Count > 0)
+        {
+            PlantPart leaf = unshriveledLeaves[Random.Range(0, unshriveledLeaves.Count)];           
+            return leaf;
+        }
+        else
+            return null;
+    }
 
 
     public void UpdatePlantStats()
@@ -97,7 +139,18 @@ public class PlantManager : MonoBehaviour
             water += part.waterAbsorption * WeatherManager.instance.soilHumidity;
             water = Mathf.Clamp(water, 0, 1);
 
-            
+         
+        }
+
+
+        if (water < 0.3)
+        {
+            PlantPart leaf = ChooseRandomUnshriveledLeaf();
+            if (leaf != null)
+            {
+                leaf.IsSchriveled = true;
+                unshriveledLeaves.Remove(leaf);
+            }
         }
 
         Debug.Log("growth potential: " + growthPotential);
@@ -112,15 +165,15 @@ public class PlantManager : MonoBehaviour
         NextTimeStep();
     }
 
-    public void CheckForWinLoseConditions()
+    public void CheckForLoseConditions()
     {
-        if (water >= waterWinThreshold && growthPotential >= growPotentialWinThreshold)
-            Blossom();
+        //if (water >= waterWinThreshold && growthPotential >= growPotentialWinThreshold)
+        //    Blossom();
 
 
-        else if (water <= waterLoseThreshold || growthPotential <= growPotentialLoseThreshold)
+        if (water <= waterLoseThreshold || growthPotential <= growPotentialLoseThreshold)
         {
-            //Debug.Log(water);
+            //Debug.Log(water);s
             //Debug.Log(waterLoseThreshold);
             //Debug.Log(growthPotential);
             //Debug.Log(growPotentialLoseThreshold);
@@ -128,13 +181,25 @@ public class PlantManager : MonoBehaviour
         }
     }
 
-    public void Blossom()
-    {
-        Debug.Log("blossom");
-    }
+  
 
     public void OnLose()
     {
-        Debug.Log("you lose!");
+        isGameOver = true;
+       // Debug.Log("you lose!");
+        if (growthPotential <= growPotentialLoseThreshold)
+            endText.text = energyLoseText;
+        else
+            endText.text = waterLoseText;
+        endGamePanel.SetActive(true);
     }
+
+    public void Win()
+    {
+        endText.text = winText;
+        endGamePanel.SetActive(true);
+       
+    }
+
+ 
 }
